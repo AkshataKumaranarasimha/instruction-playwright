@@ -9,4 +9,8 @@ dist/
 .DS_Store
 playwright-report/
 test-results/
-reports/pr-review/
+
+# Local PR-review artifacts (keep one checked-in example)
+reports/pr-review/**
+!reports/pr-review/PR-1-Initial-setup.md
+!reports/pr-review/PR-1-Initial-setup.pdf
