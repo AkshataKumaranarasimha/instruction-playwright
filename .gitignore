@@ -4,3 +4,9 @@ dist/
 .env
 .env.*
 !.env.example
+
+.auth/
+.DS_Store
+playwright-report/
+test-results/
+reports/pr-review/
