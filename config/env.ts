@@ -21,7 +21,8 @@ export const env = {
   isCi: bool(process.env.CI, false),
   baseURL: process.env.BASE_URL ?? 'https://www.google.com',
   browserChannel: process.env.BROWSER_CHANNEL ?? 'chrome',
-  headless: bool(process.env.HEADLESS, bool(process.env.CI, false)),
+  // Default headless; set HEADLESS=false to watch the browser locally.
+  headless: bool(process.env.HEADLESS, true),
   slowMo: num(process.env.SLOW_MO, 0),
   usePersistentProfile: bool(process.env.USE_PERSISTENT_PROFILE, true),
   persistentProfileDir: path.resolve(
