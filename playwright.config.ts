@@ -1,27 +1,39 @@
 import { defineConfig, devices } from '@playwright/test';
+import { env } from './config/env';
+
+const channel = env.browserChannel || undefined;
 
 export default defineConfig({
   testDir: './tests',
-  // Persistent Chrome profile is shared — keep serial locally.
+  // Persistent Chrome profile is shared when enabled — keep serial.
   fullyParallel: false,
   workers: 1,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: [['list'], ['html', { open: 'never' }]],
-  timeout: 60_000,
-  expect: { timeout: 15_000 },
+  timeout: env.timeouts.test,
+  expect: { timeout: env.timeouts.expect },
   use: {
-    baseURL: 'https://www.google.com',
-    headless: process.env.HEADLESS !== 'false',
+    baseURL: env.baseURL,
+    headless: env.headless,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     locale: 'en-US',
   },
+  webServer: {
+    command: 'node scripts/smoke-server.mjs',
+    url: env.smokeBaseURL,
+    reuseExistingServer: !env.isCi,
+    timeout: 30_000,
+  },
   projects: [
     {
-      name: 'chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      name: channel ? 'chrome' : 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        ...(channel ? { channel } : {}),
+      },
     },
   ],
 });

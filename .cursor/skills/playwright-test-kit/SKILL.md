@@ -37,17 +37,19 @@ For the case file in play:
 
 ## Framework layout
 
-| Layer | Path | Responsibility |
-|-------|------|----------------|
-| Case | `instructions/<case>.md` | Goal, Steps, Assertions, Output |
-| Data | `data/<domain>.*.ts` | Queries, expected text, flags — not hardcoded in flows when reusable |
-| Pages | `src/pages/` | Locators + actions only |
-| Assertions | `src/assertions/` | Reusable `expect` helpers |
-| Flows | `src/flows/` | Compose pages + assertions into a journey |
-| Specs | `tests/` | Thin `test()` that calls a flow |
-| Fixtures | `src/fixtures/test.ts` | Shared `test` / page objects / persistent context |
+| Layer      | Path                     | Responsibility                                                       |
+| ---------- | ------------------------ | -------------------------------------------------------------------- |
+| Case       | `instructions/<case>.md` | Goal, Steps, Assertions, Output                                      |
+| Data       | `data/<domain>.*.ts`     | Queries, expected text, flags — not hardcoded in flows when reusable |
+| Pages      | `src/pages/`             | Locators + actions only                                              |
+| Assertions | `src/assertions/`        | Reusable `expect` helpers                                            |
+| Flows      | `src/flows/`             | Compose pages + assertions into a journey                            |
+| Specs      | `tests/`                 | Thin `test()` that calls a flow                                      |
+| Fixtures   | `src/fixtures/test.ts`   | Shared `test` / page objects / persistent context                    |
 
 Domain subfolders are fine when the domain grows (`src/pages/google/…`). Prefer **one style per domain** — this repo’s Google sample uses flat files (`google-home.page.ts`, `google.assertions.ts`). Do not duplicate the same page/assertion in two paths. Do not add a parallel `src/steps/` layer unless flows are removed.
+
+CI uses the local smoke app (`instructions/smoke-search.md` → `tests/smoke-search.spec.ts`). Prefer that pattern for reliability gates; keep flaky third-party demos (e.g. Google) out of CI.
 
 ## Code rules
 

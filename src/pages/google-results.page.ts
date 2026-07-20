@@ -24,9 +24,7 @@ export class GoogleResultsPage {
 
   async waitForResults(query: string): Promise<void> {
     await this.page.waitForURL(
-      (url) =>
-        url.pathname === '/search' &&
-        url.searchParams.get('q')?.includes(query) === true,
+      (url) => url.pathname === '/search' && url.searchParams.get('q')?.includes(query) === true,
       { timeout: 30_000 },
     );
 
@@ -43,6 +41,7 @@ export class GoogleResultsPage {
       if (/unusual traffic|not a robot|recaptcha/i.test(body)) {
         throw new Error(
           'Google served a bot-check / captcha page. Re-run headed with channel=chrome, or complete the captcha once in a persistent profile.',
+          { cause: error },
         );
       }
       throw error;
