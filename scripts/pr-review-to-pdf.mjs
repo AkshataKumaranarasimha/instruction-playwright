@@ -56,9 +56,7 @@ function mdToHtml(src) {
   const inline = (text) => {
     let t = escapeHtml(text);
     t = t.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, srcPath) => {
-      const resolved = path.isAbsolute(srcPath)
-        ? srcPath
-        : path.resolve(mdDir, srcPath);
+      const resolved = path.isAbsolute(srcPath) ? srcPath : path.resolve(mdDir, srcPath);
       if (!fs.existsSync(resolved)) {
         return `<em>[missing image: ${escapeHtml(srcPath)}]</em>`;
       }
@@ -138,9 +136,7 @@ function mdToHtml(src) {
     }
 
     // Autolink bare screenshot paths ending in .png
-    const imgPathMatch = line.match(
-      /`?((?:reports\/pr-review\/|\.\/)?[^\s`]+\.png)`?/,
-    );
+    const imgPathMatch = line.match(/`?((?:reports\/pr-review\/|\.\/)?[^\s`]+\.png)`?/);
     if (imgPathMatch) {
       closeLists();
       const rel = imgPathMatch[1];
@@ -151,7 +147,10 @@ function mdToHtml(src) {
         path.resolve(mdDir, stem, 'screenshots', path.basename(rel)),
       ];
       const found = candidates.find((p) => fs.existsSync(p));
-      const rest = line.replace(imgPathMatch[0], '').replace(/^\s*—\s*/, '').trim();
+      const rest = line
+        .replace(imgPathMatch[0], '')
+        .replace(/^\s*—\s*/, '')
+        .trim();
       if (found) {
         const url = pathToFileURL(found).href;
         out.push(

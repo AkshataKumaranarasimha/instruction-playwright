@@ -17,10 +17,10 @@ Do **not** use this to author new cases (use `playwright-test-kit`).
 
 Accept one of:
 
-| Input | Examples |
-|-------|----------|
-| PR | `123`, `#123`, `https://github.com/org/repo/pull/123` |
-| Branch | `initial-setup`, `feature/foo` |
+| Input  | Examples                                              |
+| ------ | ----------------------------------------------------- |
+| PR     | `123`, `#123`, `https://github.com/org/repo/pull/123` |
+| Branch | `initial-setup`, `feature/foo`                        |
 
 If the user gives neither, ask which PR or branch to review (do not guess from uncommitted dirty files alone).
 
@@ -93,9 +93,9 @@ Prefer affected specs from the diff; else `npm test`.
 
 Derive a filesystem-safe stem from the PR (preferred) or branch:
 
-| Source | Stem example |
-|--------|----------------|
-| PR | `PR-1-Initial-setup` |
+| Source      | Stem example           |
+| ----------- | ---------------------- |
+| PR          | `PR-1-Initial-setup`   |
 | Branch only | `branch-initial-setup` |
 
 Rules:
@@ -124,31 +124,40 @@ The script embeds linked screenshots when paths resolve under `reports/pr-review
 # PR review: <PR title or branch>
 
 ## Scope
+
 - Head: <branch or PR head>
 - Base: main (or <other>)
 - Compare: `origin/main...<head>`
 - PR: <url or n/a>
 
 ## Verdict
+
 Approve | Approve with nits | Request changes
 
 ## Summary
+
 1–3 sentences.
 
 ## Test results
+
 - Command:
 - Result: pass/fail
 - Notes:
 
 ## Screenshots
+
 - `.../01-home.png` — observation
 
 ## Findings
+
 ### Blockers
+
 ### Should fix
+
 ### Nits / improvements
 
 ## Framework compliance
+
 ## Suggested follow-ups
 ```
 

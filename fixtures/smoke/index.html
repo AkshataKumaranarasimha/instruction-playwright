@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Instruction Playwright Smoke</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Georgia, 'Times New Roman', serif;
+        --ink: #1a1a1a;
+        --muted: #5c5c5c;
+        --line: #d6d6d6;
+        --accent: #0b5fff;
+        --bg: #f7f5f1;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      main {
+        max-width: 40rem;
+        margin: 4rem auto;
+        padding: 0 1.25rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+        margin: 0 0 0.35rem;
+      }
+      .lede {
+        color: var(--muted);
+        margin: 0 0 1.5rem;
+      }
+      form {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      input {
+        flex: 1;
+        padding: 0.65rem 0.75rem;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        font: inherit;
+      }
+      button {
+        padding: 0.65rem 1rem;
+        border: 0;
+        border-radius: 4px;
+        background: var(--accent);
+        color: white;
+        font: inherit;
+        cursor: pointer;
+      }
+      #results[hidden] {
+        display: none;
+      }
+      #results h2 {
+        font-size: 1.1rem;
+        margin: 0 0 0.75rem;
+      }
+      #result-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      #result-list li {
+        padding: 0.75rem 0;
+        border-top: 1px solid var(--line);
+      }
+      #result-list a {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      #empty {
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Instruction Playwright Smoke</h1>
+      <p class="lede">Stable local search demo for CI (no captcha).</p>
+
+      <form role="search" id="search-form" action="#">
+        <label class="visually-hidden" for="q" style="position: absolute; left: -9999px"
+          >Search</label
+        >
+        <input id="q" name="q" type="search" role="searchbox" aria-label="Search" />
+        <button type="submit">Search</button>
+      </form>
+
+      <section id="results" aria-live="polite" hidden>
+        <h2>Results</h2>
+        <ul id="result-list"></ul>
+        <p id="empty" hidden>No results for that query.</p>
+      </section>
+    </main>
+
+    <script>
+      const catalog = [
+        {
+          title: 'Playwright MCP getting started',
+          href: 'https://playwright.dev/docs/getting-started-mcp',
+          blurb: 'Official Playwright MCP docs',
+        },
+        {
+          title: 'microsoft/playwright-mcp',
+          href: 'https://github.com/microsoft/playwright-mcp',
+          blurb: 'GitHub repository for Playwright MCP',
+        },
+        {
+          title: 'Instruction Playwright kit',
+          href: 'https://github.com/AkshataKumaranarasimha/instruction-playwright',
+          blurb: 'Instruction-driven Playwright test generation',
+        },
+      ];
+
+      const form = document.getElementById('search-form');
+      const input = document.getElementById('q');
+      const results = document.getElementById('results');
+      const list = document.getElementById('result-list');
+      const empty = document.getElementById('empty');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const query = String(input.value || '')
+          .trim()
+          .toLowerCase();
+        const matches = catalog.filter(
+          (item) =>
+            item.title.toLowerCase().includes(query) ||
+            item.blurb.toLowerCase().includes(query) ||
+            item.href.toLowerCase().includes(query),
+        );
+
+        list.innerHTML = '';
+        results.hidden = false;
+        empty.hidden = matches.length > 0;
+
+        for (const item of matches) {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = item.href;
+          link.textContent = item.title;
+          const blurb = document.createElement('div');
+          blurb.textContent = item.blurb;
+          li.append(link, blurb);
+          list.append(li);
+        }
+
+        history.replaceState(null, '', `?q=${encodeURIComponent(input.value.trim())}`);
+        document.title = `${input.value.trim() || 'Smoke'} — Instruction Playwright Smoke`;
+      });
+    </script>
+  </body>
+</html>

@@ -1,23 +1,28 @@
 # Instruction: <short-name>
 
 ## Goal
+
 <One sentence: what the user journey should achieve.>
 
 ## Preconditions (optional)
+
 - URL:
 - Auth / profile:
 - Test data:
 
 ## Steps
+
 1. ...
 2. ...
 3. ...
 
 ## Assertions
+
 - ...
 - ...
 
 ## Output
+
 - Spec: `tests/<short-name>.spec.ts`
 - Flow: `src/flows/<short-name>.flow.ts`
 - Pages: `src/pages/...`

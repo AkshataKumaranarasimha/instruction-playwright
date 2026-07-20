@@ -39,9 +39,7 @@ export async function assertOfficialPlaywrightMcpResults(
 ): Promise<void> {
   const scope = results.mainResults.or(results.page.locator('#search, #rso'));
 
-  await expect(
-    scope.getByRole('heading', { name: /playwright mcp/i }).first(),
-  ).toBeVisible();
+  await expect(scope.getByRole('heading', { name: /playwright mcp/i }).first()).toBeVisible();
 
   await expect(
     scope
