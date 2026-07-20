@@ -1,27 +1,32 @@
 {
-  "name": "playwright-mcp",
+  "name": "instruction-playwright",
   "version": "1.0.0",
   "description": "Instruction-to-UI-test agent using Playwright MCP",
-  "main": "index.js",
   "scripts": {
     "test": "playwright test",
     "test:google": "playwright test tests/google-search-playwright-mcp.spec.ts",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
     "pr-review:pdf": "node scripts/pr-review-to-pdf.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akshpythonista/playwright-mcp.git"
+    "url": "git+https://github.com/AkshataKumaranarasimha/instruction-playwright.git"
   },
-  "keywords": [],
+  "keywords": [
+    "playwright",
+    "mcp",
+    "instruction-driven",
+    "ui-testing"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/akshpythonista/playwright-mcp/issues"
+    "url": "https://github.com/AkshataKumaranarasimha/instruction-playwright/issues"
   },
-  "homepage": "https://github.com/akshpythonista/playwright-mcp#readme",
+  "homepage": "https://github.com/AkshataKumaranarasimha/instruction-playwright#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",

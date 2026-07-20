@@ -1,6 +1,6 @@
 import { test as base, chromium, type BrowserContext, type Page } from '@playwright/test';
 import fs from 'fs';
-import path from 'path';
+import { env } from '../../config/env';
 import { GoogleHomePage } from '../pages/google-home.page';
 import { GoogleResultsPage } from '../pages/google-results.page';
 
@@ -12,20 +12,19 @@ type Fixtures = {
   page: Page;
 };
 
-const profileDir = path.join(__dirname, '../../.auth', 'chrome-profile');
-
 /**
  * Shared fixtures — inject page objects into specs without re-wiring.
  * Uses a persistent Chrome profile to reduce Google bot interstitials.
  */
 export const test = base.extend<Fixtures>({
   context: async ({}, use) => {
-    fs.mkdirSync(profileDir, { recursive: true });
-    const context = await chromium.launchPersistentContext(profileDir, {
-      channel: 'chrome',
-      headless: !!process.env.CI,
+    fs.mkdirSync(env.persistentProfileDir, { recursive: true });
+    const context = await chromium.launchPersistentContext(env.persistentProfileDir, {
+      channel: env.browserChannel as 'chrome',
+      headless: env.headless,
       locale: 'en-US',
       viewport: { width: 1280, height: 720 },
+      slowMo: env.slowMo,
       args: ['--disable-blink-features=AutomationControlled'],
     });
     await use(context);

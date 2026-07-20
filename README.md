@@ -1,6 +1,20 @@
-# playwright-mcp
+# instruction-playwright
 
 Instruction → UI test agent powered by [Playwright MCP](https://playwright.dev/docs/getting-started-mcp).
+
+Natural-language case files in `instructions/` are explored with Playwright MCP, then turned into modular Playwright code (pages → assertions → flows → thin specs).
+
+## Prerequisites
+
+- Node.js 20+
+- Google Chrome (tests use `channel: 'chrome'`)
+- Cursor with [Playwright MCP](https://playwright.dev/docs/getting-started-mcp) enabled (for agent explore / codegen)
+
+```bash
+npm install
+npx playwright install chrome
+cp .env.example .env   # optional — defaults are headless + Google
+```
 
 ## How it works
 
@@ -29,34 +43,42 @@ Instruction → UI test agent powered by [Playwright MCP](https://playwright.dev
 
 > Follow the pr-review skill for PR 12. Compare to main, run affected tests, take MCP screenshots, and tell me what to improve.
 
-> Follow the pr-review skill for branch `initial-setup` vs `main`. Run tests and give screenshot feedback.
-
 Review artifacts land in `reports/pr-review/` (gitignored). Checked-in example: [`reports/pr-review/PR-1-Initial-setup.pdf`](reports/pr-review/PR-1-Initial-setup.pdf).
 
 ```bash
-node scripts/pr-review-to-pdf.mjs reports/pr-review/PR-1-Initial-setup.md
+npm run pr-review:pdf -- reports/pr-review/PR-1-Initial-setup.md
 ```
 
-## First case
+## First case (demo)
 
-`instructions/google-search-playwright-mcp.md` → search Google for `playwright-mcp` with waits and assertions.
+`instructions/google-search-playwright-mcp.md` → search Google for `playwright-mcp` with waits and SERP assertions.
 
 ```bash
 npm test
 # or
-npx playwright test tests/google-search-playwright-mcp.spec.ts
+npm run test:google
+
+# Watch the browser
+HEADLESS=false npm test
+
+# Typecheck
+npm run typecheck
 ```
+
+**Demo caveat:** Google may show a captcha / “unusual traffic” interstitial. The fixture uses a persistent Chrome profile under `.auth/` (gitignored) to reduce that. If a live run is blocked, use a previously green HTML report (`npm run report`) rather than inventing a pass.
 
 ## Layout
 
 ```
 instructions/          # case files (+ _template.md)
 .cursor/skills/        # playwright-test-kit + pr-review
-src/pages/             # page objects
+config/env.ts          # typed env (HEADLESS, profile, timeouts)
+src/pages/             # page objects (flat: google-home.page.ts)
 src/assertions/        # assertion helpers
 src/flows/             # end-to-end flows
-src/fixtures/          # Playwright fixtures
+src/fixtures/          # Playwright fixtures + persistent context
+src/core/              # BasePage, tags, shared helpers
 data/                  # test data / params
-tests/                 # specs
-reports/pr-review/     # local review screenshots + notes (ignored)
+tests/                 # thin specs
+reports/pr-review/     # local review artifacts (mostly ignored)
 ```

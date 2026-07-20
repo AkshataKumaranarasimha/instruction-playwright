@@ -47,12 +47,12 @@ For the case file in play:
 | Specs | `tests/` | Thin `test()` that calls a flow |
 | Fixtures | `src/fixtures/test.ts` | Shared `test` / page objects / persistent context |
 
-Domain subfolders are fine (`src/pages/google/`, `src/assertions/google/`). Prefer one style per domain; do not duplicate the same page/assertion in two paths.
+Domain subfolders are fine when the domain grows (`src/pages/google/…`). Prefer **one style per domain** — this repo’s Google sample uses flat files (`google-home.page.ts`, `google.assertions.ts`). Do not duplicate the same page/assertion in two paths. Do not add a parallel `src/steps/` layer unless flows are removed.
 
 ## Code rules
 
-- Import `test` / `expect` from `src/fixtures/test.ts` in specs (not raw `@playwright/test`), unless extending `src/core/test.base.ts` for steps.
-- Specs call **flows** (or step modules that compose pages + assertions). Specs must not wire locators directly.
+- Import `test` / `expect` from `src/fixtures/test.ts` in specs (not raw `@playwright/test`).
+- Specs call **flows** that compose pages + assertions. Specs must not wire locators directly.
 - Prefer `getByRole` / accessible names from MCP snapshots over brittle CSS.
 - Put params in `data/` or flow options; avoid magic strings scattered across layers.
 - Comment generated files with the source instruction path, e.g. `Generated from: instructions/foo.md`.

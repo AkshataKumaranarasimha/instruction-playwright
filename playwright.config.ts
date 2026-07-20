@@ -12,6 +12,7 @@ export default defineConfig({
   expect: { timeout: 15_000 },
   use: {
     baseURL: 'https://www.google.com',
+    headless: process.env.HEADLESS !== 'false',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
